@@ -1,0 +1,144 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{lipsum}
+
+\begin{document}
+
+\title{GRAF TABANLI METİN ÖZETLEME PROJESİ}
+\author{\IEEEauthorblockN{\large Mehmet Ali Akdoğan}
+\IEEEauthorblockA{\textit{} \\
+\textit{\large200202017}\\
+}
+\and
+\IEEEauthorblockN{\large Eren Sezer}
+\IEEEauthorblockA{\textit{} \\
+\textit{\large200202025}\\
+}
+}
+\maketitle
+
+\section{Özet}
+Bu raporda, bir dokümandaki cümlelerin graf yapısına dönüştürülmesi ve bu graf modelinin görselleştirilmesi konusu üzerine yaptığımız proje sunulmaktadır. Graf üzerindeki düğümlerle özet oluşturan bir algoritma geliştirilmesi amaçlanmaktadır. Projenin amacı, veri yapıları bilgisinin pekiştirilmesi ve problem çözme becerisinin gelişimi üzerinde odaklanmaktadır. Proje, C++, C#, Java veya Python programlama dilleri kullanılarak gerçekleştirilecektir.
+
+\section{Giriş}
+Projede masaüstü uygulama geliştirmemiz gerekmektedir. Masaüstü uygulamada ilk olarak
+doküman yükleme işlemi gerçekleştirilecektir. Ardından yüklenen dokümandaki cümleleri
+graf yapısı haline getirmeniz ve bu graf yapısını görselleştirmemiz beklenmektedir. Bu grafta
+her bir cümle bir düğümü temsil edecektir. \\\\Cümleler arasındaki anlamsal ilişki kurulmalı,
+cümleler skorlanmalıdır. Belirli parametreleri kullanarak cümle skorunun hesaplama
+algoritmasını ve cümle skorlarına göre metin özeti çıkarma algoritmalarını bizim geliştirmeniz
+istenmektedir. Özet metni arayüzde sunmanız beklenmektedir. Sonuç olarak size verilen bir
+metnin özetini bu yöntem ile çıkarmanız ve gerçek özet ile benzerliğini “ROUGE” skorlaması
+ile ölçmemiz istenmektedir.
+\\\\
+Projede temel amaç; cümleleri graf yapısına çevirip Cümle Seçerek Özetleme (Extractive
+Summarization) gerçekleştirmektir. Graf yapısına çevirerek cümlelerin metindeki anlamsal
+ilişkilerini görselleştirmek ve bu ilişkileri kullanarak önemli cümleleri belirlemek
+amaçlanmaktadır.
+
+\section{Yöntem}
+Öncelikle yazacağımız dili belirlemek istedik. Bunun için 
+metin işlemede bize kolaylık sağlayabilecek paketlere göz 
+gezdirdik. En pratik , az koda çok iş yapabilen kompleksliği
+az dil olan ve metin işlemede paket desteği gayet iyi olan 
+python dilini seçtik.\\\\
+Sonra arayüz için yaptığımız araştırmalar sonucunda PyQt5 paketini
+seçmeye karar verdik. Bu proejyi yaparken yapay zekadanda destek 
+almak isteyip Google'nin yapay zeka projesi olan Bert AI 'yi kullandık.
+Bu Bert yapay zeka modelinin ise hazır eğitilmiş -trained- versiyonunu
+kullandık.
+
+\subsection{Masaüstü Arayüzü Geliştirilmesi ve Graf Yapısının Oluşturulması}
+Nasıl bir arayüz kullanacağımızı planlarken öncelikli hedefimiz
+basit görünüm ve kullanım kolaylığıydı. Basit görünüm için yeni açılır 
+pencerelerden olabildiğince kaçındık. Sadece en son aşama olan özet 
+kısımlarında yeni pencere olayını kullandık. Metin girdisini her zaman gözükecek ve en üstte olacak 
+şekilde aksiyon tuşlarını metin girdisinin hemen aşağısına konumlandırdık.
+Graf gösterimi için ferah gaye geniş bir alan konuşlandırdık. Bu sayede hem metini hemde grafı büyük 
+alanda görme sıkıntısı olmayacak şekilde konumlandırdık. \\\\
+Yöntemde belirttiğimiz gibi arayüz için PyQt5 paketini kullandık.
+Graf gösterimi için ise NetworkX paketini kullandık.
+
+
+\subsection{Cümleler Arası Anlamsal İlişkinin Kurulması}
+Cümleler arası anlamsal ilişkilerin kurulmasından önce stopwordlerin kaldırılması,özel isim içerme ve
+nümerik veri içerme adımları gibi işlemleri uygulayarak ilişkinin sağlıklı bir şekilde kurulamsını sağladık. Bunun içinde yine python paketi olan nltk'yi kullandık.Cümleler Arası Anlamsal İlişkinin Kurulması için ise kelime düzeyindeki anlamsal ilişkileri yakalamak için
+kullanılan bir makine öğrenimi tekniği olan Word Embeddingi ve ek puan almak için doğal dil işleme (NLP) alanında kullanılan bir derin öğrenme
+modeli olan Bert'i kullandık :). Bu adımda, cümlelerin birbiriyle olan ilişkileri belirleyerek özeti oluşturacak temel yapıyı oluşturduk. Anlamsal ilişkiler, cümlelerin benzerlikleri, anlamdaşlıkları ve bağlantıları üzerinden tespit ettik. Bunun için doğal dil işleme teknikleri kullandık. \\\\ Anlamsal ilişkilerin doğru bir şekilde kurulmasını sağlayarak, özetteki bilgi yoğunluğunu ve anlam kalitesini arttırdık. Özetleme sürecinde, metindeki cümlelerin anlamsal ilişkilerini belirlemek için kendi geliştirdiğimiz algoritmayı kullandık.\\\\
+
+\subsection{Cümleler Arası Benzerliğin Hesaplanması}
+ Cümleler arası benzerliğin hesaplanması için ise kosinus benzerliğini kullandık.Kosinüs benzerliği hesaplaması için genellikle TF-IDF (Term Frequency-Inverse Document Frequency) dil modellini kullandık. Bu model, cümlelerin içerdikleri kelimelerin vektör temsillerini oluşturarak, cümleler arasındaki benzerliği hesaplamada kullanılır. Kosinüs benzerliği, metin özetleme, metin sınıflandırma, bilgi alaka değerlendirmesi gibi birçok metin tabanlı uygulama için önemli bir bileşendir.
+
+Kosinüs benzerliği, cümlelerin anlam benzerliğini ölçerken kelimelerin dağılımını ve ilişkisini dikkate alır.
+
+\subsection{Skorlara Göre Metin Özetleme Algoritması}
+Projede cümle seçerek özetleme yaptık, yani var olan cümle yapısı bozulmadan
+cümleler seçilerek çıkarılıp özeti elde ettik. Oluşan node skorlarına göre node seçip
+bunlar ile özet oluşturacak bir metin özetleme algoritması geliştirdik.
+Oluşturulan özeti ise arayüzümüzde
+yeni pencere açarak gösteriyoruz.
+
+\subsection{Özetleme Başarısının ROUGE Skoru ile Hesaplanması}
+Özetleme başarısının ROUGE skoru ile hesaplanması, metin özetleme sistemlerinin performansını objektif bir şekilde değerlendirmek için kullanılan bir yöntemdir. ROUGE (Recall-Oriented Understudy for Gisting Evaluation) metrikleri, özette yer alan önemli bilgilerin kaynak metindeki referans özetlemeyle ne kadar uyumlu olduğunu ölçmek için kullanılır. ROUGE skorları, özetin kapsamını, kesinliğini ve tutarlılığını değerlendirir ve bizde Rogue Skoru ile verilen özetle elde edilen özeti arayüzümüzde yeni açılan pencerede hesaplayıp sonucunu başarılı bir şekilde gösteriyoruz.
+
+\section{Deneysel Görüntüler}
+    \begin{center}
+    \includegraphics[width=8 cm,height=6cm,origin=c]{img1.jpg}\\
+    \\
+    \includegraphics[width=8 cm,height=6 cm,origin=c]{img2.jpg}\\
+    \\
+    \includegraphics[width=8 cm,height=6 cm,origin=c]{img3.jpg}\\
+    \\
+    \includegraphics[width=8 cm,height=6 cm,origin=c]{img4.jpg}\\
+    \\
+    \includegraphics[width=8 cm,height=6 cm,origin=c]{img6.jpg}\\
+    \\
+    \includegraphics[width=8 cm,height=6 cm,origin=c]{img7.jpg}\\
+    \\
+    \includegraphics[width=8 cm,height=6 cm,origin=c]{img8.jpg}\\
+    \\
+    \end{center}
+\section{Sözde Kod}
+1-)PyQt5 paketini yükleyerek arayüzü başlat\\
+2-)Arayüze komponentleri yerleştir\\
+3-)Metin yüklemek için yeni pencere açıp metin belgesini seçtir.\\
+4-)Alınan metin belgesinin içeriğini okuyarak arayüze yazdır.\\
+5-)Her iki algoritamaya göre grafiği çiz butonuna basınca alttaki satırları gerçekleştir:\\
+6-)Texti ve threshold değerlerini arayüzden al ve bir değişkene ata\\
+7-)Bu değerleri nltk kütüphanesine göre ön işleme adımlarına sok \\
+8-)Hem bert hemde word embeddinge göre cümleler arası anlamsal ilişkileri oluştur\\
+9-)Threshold değerini geçen node sayısını hesapla\\
+10-)Cümle skorunu cümlede geçen özel isim oranı, numerik sayı oranını, threshold değerini geçen node sayısı oranını, başlık kelimele oranını ve TF-IDF oranını hesapla\\
+11-)Grafı çizmeye başla\\
+12-)Threshold değerini geçen bağlantıların çizgisi özelleştir -Kalınlaştır-\\
+13-)Bütün bağlantıları tekar oluştur.\\
+14-)Grafı çiz.\\
+15-)BERT embedding'e göre çiz butonuna basınca alttaki satırları gerçekleştir:\\
+16-)Texti ve threshold değerlerini arayüzden al ve bir değişkene ata\\
+17-)Bu değerleri nltk kütüphanesine göre ön işleme adımlarına sok \\
+18-)Bert yapay zeka modeline göre cümleler arası anlamsal ilişkileri oluştur\\
+19-)Threshold değerini geçen node sayısını hesapla\\
+20-)Cümle skorunu cümlede geçen özel isim oranı, numerik sayı oranını, threshold değerini geçen node sayısı oranını, başlık kelimele oranını ve TF-IDF oranını hesapla\\
+21-)Grafı değerlere göre çiz.\\
+22-)Word embedding'e göre çiz butonuna basınca yukarıdaki bert adımlarını word embedding kullanarak uygula.\\
+23-)Özeti çıkar butonuna basınca alttaki satırları gerçekleştir:\\
+24-)Yeni pencere açılır ve aşağıdaki algoritmaya göre özetini bulup çıktısını gösteren component , altına kullanıcının özet girebileceği input componenti ve buton oluştur.\\
+25-)Cümle skorlarını yüksekten düşüğe göre sırala bu dizinin yarısını al ve yazdır. \\
+26-)Alttaki componente yeni referans metni girilip karşılaştır tuşuna basılınca : \\
+27-)Rogue skorunu referans metine ve kendi özetimize göre hesapla.\\
+
+\section{Sonuç}
+Sonuç olarak verilen metin dosyasındaki metini alıp bunun içindeki metini işleyip buna göre gerekli skorları benzerlikleri çıkarabilen, özetini bulabilen, girilen kullanıcı özeti ile rogue skoru bulabilen, yapay zeka bert desteği bulunan ve elde edilen cümle benzerliklerini ve cümle skorlarını
+güzel bir şekilde grafa dökebilen, güzel bir arayüzü bulunan bir program geliştirdik ve size sunuyoruz. 
+
+\section*{Kaynakça}
+-Python için:\\
+- w3schools.com\\
+Pyhton IDE, PyCharm ve genel sorunlar için;\\
+-jetbrains.com\\
+-stackoverflow.com\\
+mdurmuss.github.io/tf-idf-nedir/ \\
+LaTeX Raporu hazırlamak için gerekli ekipman ve bilgiler;\\
+- tex.stackexchange.com,- www.overleaf.com\\
+
+\end{document}
